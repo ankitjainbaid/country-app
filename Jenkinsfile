@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sh 'gradle --version'
                 sh 'chmod +x ./gradlew'
-                sh './gradlew clean build'
+                sh 'gradlew clean build'
             }
         }
        stage ('Build & Push docker image') {
