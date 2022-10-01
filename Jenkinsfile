@@ -1,7 +1,8 @@
 pipeline {
     agent any
     tools{
-      gradle 'gradle'
+       java 'java' 
+       gradle 'gradle'
     }
     stages{
         stage('GIT checkout') {
