@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools{
+      gradle '7.5.1'
+    }
     stages{
         stage('GIT checkout') {
             steps {               
@@ -8,6 +11,7 @@ pipeline {
        }
        stage('Build Package') {
             steps {
+                sh 'gradle --version'
                 sh 'chmod +x ./gradlew'
                 sh './gradlew clean build'
             }
