@@ -8,8 +8,7 @@ pipeline {
        }
        stage('Build Package') {
             steps {
-                def gradleVersion = sh script: "gradle getVersion()", returnStdout: true
-                echo "gradleVersion : $gradleVersion"
+                sh 'gradle -version'
                 sh 'chmod +x gradlew'
                 sh './gradlew clean build'
             }
