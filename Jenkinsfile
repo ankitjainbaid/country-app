@@ -1,40 +1,22 @@
 pipeline {
-  environment {
-    imagename = "ankitjainbaid/country-app"
-    registryCredential = 'ankitjainbaid'
-    dockerImage = ''
-  }
-  agent any
-  stages {
-    stage('Cloning Git') {
-      steps {
-        git([url: 'https://github.com/ankitjainbaid/country-app', branch: 'main', credentialsId: 'ankitjainbaid'])
- 
-      }
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
+    agent any
+    stages{
+        stage('GIT checkout') {
+            steps {
+                git url: 'https://github.com/ankitjainbaid/country-app.git'
+           }
+       }
+       stage('Build Package') {
+            steps {
+                 sh './gradlew clean build'
+            }
         }
-      }
+       stage ('Build & Push docker image') {
+            steps {
+                withDockerRegistry(credentialsId: dockerhub, url: 'https://index.docker.io/v1/') {
+                    sh 'docker push ankitjainbaid/country-app'
+                }
+            }
+       } 
     }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
- 
-      }
-    }
-  }
 }
