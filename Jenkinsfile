@@ -8,7 +8,8 @@ pipeline {
        }
        stage('Build Package') {
             steps {
-                 sh './gradlew clean build'
+                sh 'chmod +x gradlew'
+                sh './gradlew clean build'
             }
         }
        stage ('Build & Push docker image') {
