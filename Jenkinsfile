@@ -2,8 +2,8 @@ pipeline {
     agent any
     stages{
         stage('GIT checkout') {
-            steps {
-                git credentialsId: 'ankitjainbaid_github', url: 'https://github.com/ankitjainbaid/country-app.git'
+            steps {               
+                git([url: 'https://github.com/ankitjainbaid/country-app', branch: 'main', credentialsId: 'ankitjainbaid_github'])
            }
        }
        stage('Build Package') {
